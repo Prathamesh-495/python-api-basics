@@ -75,6 +75,44 @@ def get_crypto_price():
         print(f"\nCoin '{coin_id}' not found!")
         print("Try: btc-bitcoin, eth-ethereum, doge-dogecoin")
 
+def get_comments_from_post():
+    print("\n=== Comments from a Post ===\n")
+
+    post_id = input("Enter post ID (1-10): ").strip()
+
+    # Input validation
+    if not post_id.isdigit():
+        print("❌ Invalid input! Please enter a number.")
+        return
+
+    post_id = int(post_id)
+
+    if post_id < 1 or post_id > 10:
+        print("❌ Post ID must be between 1 and 10.")
+        return
+
+    url = "https://jsonplaceholder.typicode.com/comments"
+    params = {"postId": post_id}
+
+    response = requests.get(url, params=params)
+
+    if response.status_code != 200:
+        print("❌ Failed to fetch comments.")
+        return
+
+    comments = response.json()
+
+    if not comments:
+        print("No comments found for this post.")
+        return
+
+    print(f"\n--- Comments for Post #{post_id} ---")
+
+    for i, comment in enumerate(comments, 1):
+        print(f"\nComment {i}")
+        print(f"Name : {comment['name']}")
+        print(f"Email: {comment['email']}")
+        print(f"Body : {comment['body']}")
 
 def main():
     """Main menu for the program."""
@@ -87,7 +125,8 @@ def main():
         print("1. Look up user info")
         print("2. Search posts by user")
         print("3. Check crypto price")
-        print("4. Exit")
+        print("4. Get comments from a post")
+        print("5. Exit")
 
         choice = input("\nEnter choice (1-4): ")
 
@@ -98,6 +137,8 @@ def main():
         elif choice == "3":
             get_crypto_price()
         elif choice == "4":
+            get_comments_from_post()
+        elif choice == "5":
             print("\nGoodbye!")
             break
         else:

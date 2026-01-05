@@ -40,7 +40,7 @@ response = requests.get(url)
 
 # Convert response to Python dictionary
 data = response.json()
-
+    
 # Access specific fields
 print(f"Full Name: {data['name']}")
 print(f"Username: {data['username']}")
